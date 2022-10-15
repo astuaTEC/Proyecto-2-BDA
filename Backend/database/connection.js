@@ -17,6 +17,8 @@ const typeDefs = `
 // Establish Neo4J Connection using Neo4j drivers
 const driver = neo4j.driver(URI, neo4j.auth.basic(DB_USERNAME, DB_PASSWORD));
 
+const session = driver.session();
+
 // Connect our typedefs and connection to the OGM
 var ogm = new OGM({ typeDefs, driver });
 
@@ -27,5 +29,6 @@ const Persona = ogm.model("Persona");
 
 // export all my models
 module.exports = {
-    Persona
+    Persona,
+    session
 }

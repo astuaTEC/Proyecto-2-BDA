@@ -4,6 +4,6 @@ const { query } = require('../controllers/test');
 
 const router = Router();
 
-router.get('/', query);
+router.post('/', query);
 
 module.exports = router;

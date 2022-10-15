@@ -15,3 +15,11 @@ LOAD CSV WITH HEADERS FROM "file:///Compras.csv" AS line
 MATCH (c: Cliente), (p: Producto)
 WHERE c.id = line.idCliente and p.id = line.idProducto
 MERGE (c)-[r: Compra {cantidad: line.cantidad}]->(p)
+
+Cosas utiles:
+
+C:\Users\samas\.Neo4jDesktop\relate-data\dbmss\dbms-42bd9197-be86-4ca7-9f9f-34fcbc71d62d\import
+
+match (a) -[r] -> () delete a, r
+
+match (a) delete a
