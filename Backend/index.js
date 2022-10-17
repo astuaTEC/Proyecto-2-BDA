@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.use( express.json() );
 
 // Rutas
-app.use('/api/test', require('./routes/test'));
+app.use('/api/files', require('./routes/files'));
 //app.use('/api/clubes', require('./routes/clubes'));
 
 //Escuchar peticiones

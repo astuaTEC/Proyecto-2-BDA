@@ -19,6 +19,8 @@ const driver = neo4j.driver(URI, neo4j.auth.basic(DB_USERNAME, DB_PASSWORD));
 
 const session = driver.session();
 
+console.log("DB conectada");
+
 // Connect our typedefs and connection to the OGM
 var ogm = new OGM({ typeDefs, driver });
 
