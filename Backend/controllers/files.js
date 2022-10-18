@@ -80,6 +80,66 @@ const execCommandLoad = async () => {
     }
 }
 
+
+const createNodesFromUrl = async(req, res = response) => {
+    fileArray = req.body;
+
+    for(let file of fileArray){
+        let { filename, url } = file;
+
+        try {
+            if(filename == "Marcas"){
+                await session.run(
+                    `LOAD CSV WITH HEADERS FROM "$url" AS line
+                    MERGE (n: Marca {id: line.id, nombre: line.nombre, pais: line.pais})`,
+                    parameters("url", url)
+                );
+            }
+            
+            else if (filename == "Productos"){
+                await session.run(
+                    `LOAD CSV WITH HEADERS FROM "$url" AS line
+                    MERGE (p: Producto {id: line.id, nombre: line.nombre, marca: line.marca, precio: line.precio})
+                    WITH p
+                    MATCH (p: Producto), (m: Marca)
+                    WHERE p.marca = m.nombre
+                    MERGE (p)-[r: producidoPor]->(m)`,
+                    parameters("url", url)
+                );
+            }
+            
+            else if(filename == "Clientes"){
+                await session.run(
+                    `LOAD CSV WITH HEADERS FROM "$url" AS line
+                    MERGE (n: Cliente {id: line.id, first_name: line.first_name, last_name: line.last_name})`,
+                    parameters("url", url)
+                );
+            }
+            
+            else if(filename == "Compras"){
+                await session.run(
+                    `LOAD CSV WITH HEADERS FROM "$url" AS line
+                    MATCH (c: Cliente), (p: Producto)
+                    WHERE c.id = line.idCliente and p.id = line.idProducto
+                    MERGE (c)-[r: Compra {cantidad: line.cantidad}]->(p)`,
+                    parameters("url", url)
+                );
+            }
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
+    return res.status(200).json(
+        {
+            ok: true,
+            msg: "Archivos cargados correctamente"
+        }
+    );
+
+}
+
 module.exports = {
     chargeFiles
 }
