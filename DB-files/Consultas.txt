@@ -15,5 +15,7 @@ match(p:Producto)-[r:producidoPor]->(m:Marca)
 match(p)<-[c:Compra]-(cl:Cliente)
 with m,SUM(toInteger(c.cantidad)) as cant_vendidos
 return m.nombre,m.pais, cant_vendidos
+order by cant_vendidos desc
+limit 5
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --------------------------------------------------------------------------------------------------
