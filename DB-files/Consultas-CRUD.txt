@@ -1,0 +1,61 @@
+----------Verificar la cantidad de nodos en la db---------------
+
+match() return count(*) 
+
+----------Cliente por su nombre----------------
+
+match(c: Cliente {first_name: "Ollie"}) return c
+
+Los clientes tienen id,first_name,last_name
+
+-------Return de todos los clientes------------
+match (c: Cliente) return c
+
+--------CREAR un cliente------------------------
+
+match(c1:Cliente)
+with max(toInteger(c1.id)) as i
+CREATE(c: Cliente {first_name: "Nombre", last_name: "Apellido", id: toString(i+1)}) 
+return c
+
+---------ELIMINAR un cliente y sus relaciones------
+
+match (c: Cliente {id: "1"}) detach delete c
+
+---------- ACTUALIZAR varias propiedades de un cliente----------
+
+match(c: Cliente {id: "21"})
+set c = {first_name: "Cristabellll", last_name: "Inventado"}
+return c
+
+****************************CATALOGO***************
+
+-----------Obtener todas las marcas disponibles---------
+
+match(m:Marca) return m
+
+---------- OBTENER todos los productos ------------
+
+match(p:Producto) return p
+
+--------- CREAR un producto y su relacion con la marca ---------------
+
+MERGE (p: Producto {id: "3", nombre: "Yoghurt Tubes", marca: "Skim", precio: "564"})
+WITH p
+MATCH (p: Producto), (m: Marca)
+WHERE p.marca = m.nombre
+MERGE (p)-[r: producidoPor]->(m)
+
+------------- ELIMINAR UN producto y sus relaciones ------------
+
+match (p: Producto {id: "3"}) detach delete p
+
+------------------ ACTUALIZAR un producto----------------
+
+TODO: hay que tener cuidado cuando se cambia de marca
+
+match(p: Producto {id: "21"})-[r: producidoPor]->(m: Marca)
+where p.marca = m.nombre
+return r
+set c = {first_name: "Cristabellll", last_name: "Inventado"}
+return c
