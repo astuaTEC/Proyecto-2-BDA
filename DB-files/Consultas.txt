@@ -1,9 +1,16 @@
 --------------------------------------------------------------------------------------------------
 TOP 5 compras
 nombre del producto, cantidad total
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Funciona nombres sin importar marca
+////////se repite "Glass Clear 8 Oz" y "Table Cloth 54x72 White"/////////
 match(x:Producto)<-[r:Compra]-(c:Cliente)
 return x.nombre,SUM(toInteger(r.cantidad)) as cant_vendidos
+order by cant_vendidos desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Da cada producto por separado(importa la marca)
+match(x:Producto)<-[r:Compra]-(c:Cliente)
+with x,SUM(toInteger(r.cantidad)) as cant_vendidos
+return x.nombre,cant_vendidos
 order by cant_vendidos desc
 limit 5
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -18,4 +25,22 @@ return m.nombre,m.pais, cant_vendidos
 order by cant_vendidos desc
 limit 5
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+TOP 5 Clientes que mas compran
+nombre(first_name, c.last_name), compras_total
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(x:Producto)<-[r:Compra]-(c:Cliente)
+with c,SUM(toInteger(r.cantidad)) as compras_total
+return c.first_name,c.last_name,compras_total
+order by compras_total desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+Busqueda cliente
+input -> fname,lname
+return ->nombre(producto), cantidad(producto)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(x:Producto)<-[r:Compra]-(c:Cliente{first_name:"fname",last_name:"lname"})
+return x.nombre,r.cantidad
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --------------------------------------------------------------------------------------------------
