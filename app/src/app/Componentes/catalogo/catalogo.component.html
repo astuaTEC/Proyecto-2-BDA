@@ -1,1 +1,69 @@
-<p>catalogo works!</p>
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col text-center">
+            <h2>Catálogo de productos</h2>
+        </div>
+        <div class="col text-center">
+            <button type="button" class="btn btn-success" (click)="openAgregarProducto()">Agregar Producto</button>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col section">
+            <table mat-table [dataSource]="dataSourceProductos" class="mat-elevation-z8">
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+            
+              
+                <!-- ID Column -->
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Nombre Column -->
+                <ng-container matColumnDef="Nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Marca Column -->
+                <ng-container matColumnDef="Marca">
+                    <th mat-header-cell *matHeaderCellDef> Marca </th>
+                    <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                </ng-container>
+
+                <!-- Precio Column -->
+                <ng-container matColumnDef="Precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Editar">
+                    <th mat-header-cell *matHeaderCellDef> Editar</th>
+                    <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button class="favorite-icon search-icon" (click)="openEditarProducto(element.id, element.nombre, element.marca, element.precio)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    </td>
+                </ng-container>
+
+
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Eliminar">
+                    <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                    <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button class="favorite-icon search-icon" (click)="openEliminarProducto(element.id, element.nombre)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    </td>
+                </ng-container>
+
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumnProductos" class="header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnProductos;" class="content-row"></tr>
+              </table>
+        </div>
+    </div>
+</div>
+

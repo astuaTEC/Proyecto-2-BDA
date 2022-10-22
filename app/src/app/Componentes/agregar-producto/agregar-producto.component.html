@@ -1,0 +1,49 @@
+<h1 mat-dialog-title class="text-center">Agregar Nuevo Producto</h1>
+<div mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <form #agregarProductoForm="ngForm" novalidate>
+                <div class="form-container">
+                    <!-- Nombre Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Nombre</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_producto" [(ngModel)]="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Marca Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Marca</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="marca_producto" [(ngModel)]="marca">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Precio Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Precio</label>
+                            <div class="form-group">
+                                <input type=number class="form-control"
+                                required name="precio_producto" [(ngModel)]="precio">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div mat-dialog-actions>
+                    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+                    <button mat-button [disabled]="agregarProductoForm.form.invalid" [mat-dialog-close]="[nombre, marca, precio]" cdkFocusInitial>Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

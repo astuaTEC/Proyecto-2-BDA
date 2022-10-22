@@ -13,6 +13,9 @@ import { AgregarClienteComponent } from './Componentes/agregar-cliente/agregar-c
 import { EliminarClienteComponent } from './Componentes/eliminar-cliente/eliminar-cliente.component';
 import { EditarClienteComponent } from './Componentes/editar-cliente/editar-cliente.component';
 import { FormsModule } from '@angular/forms';
+import { AgregarProductoComponent } from './Componentes/agregar-producto/agregar-producto.component';
+import { EliminarProductoComponent } from './Componentes/eliminar-producto/eliminar-producto.component';
+import { EditarProductoComponent } from './Componentes/editar-producto/editar-producto.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { FormsModule } from '@angular/forms';
     ComprasComponent,
     AgregarClienteComponent,
     EliminarClienteComponent,
-    EditarClienteComponent
+    EditarClienteComponent,
+    AgregarProductoComponent,
+    EliminarProductoComponent,
+    EditarProductoComponent
   ],
   imports: [
     BrowserModule,
