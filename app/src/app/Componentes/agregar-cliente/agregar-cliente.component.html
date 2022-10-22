@@ -1,0 +1,38 @@
+<h1 mat-dialog-title class="text-center">Agregar Nuevo Cliente</h1>
+<div mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <form #agregarClienteForm="ngForm" novalidate>
+                <div class="form-container">
+                    <!-- Nombre Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Nombre</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_cliente" [(ngModel)]="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Apellido Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Apellido</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="apellido_cliente" [(ngModel)]="apellido">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div mat-dialog-actions>
+                    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+                    <button mat-button [disabled]="agregarClienteForm.form.invalid" [mat-dialog-close]="[nombre, apellido]" cdkFocusInitial>Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
