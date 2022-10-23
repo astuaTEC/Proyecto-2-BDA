@@ -44,3 +44,24 @@ match(x:Producto)<-[r:Compra]-(c:Cliente{first_name:"fname",last_name:"lname"})
 return x.nombre,r.cantidad
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --------------------------------------------------------------------------------------------------
+Clientes en productos en comun
+input -> fname, lname, producto
+return fname,lname(de los otros clientes)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(c:Cliente{first_name:"fname",last_name:"lname"})-[r:Compra]->(p:Producto{nombre:"Bagel - Ched Chs Presliced"})<-[r2:Compra]-(cl:Cliente)
+return cl.first_name,cl. last_name
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+Clientes en compras en comun(Russell,Ollie,Calvin, Jourdain, Abelard, Priscella)
+input -> fname, lname 
+return fname,lname(de los otros clientes)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(c:Cliente{first_name:"fname",last_name:"lname"})-[r:Compra]->(p:Producto),(p)<-[r2:Compra]-(cl:Cliente)
+with cl,c, count(DISTINCT r2) as rela
+where rela>=2
+match(c)-[:Compra]->(p:Producto)<-[:Compra]-(cl:Cliente)
+with p, cl
+where not (cl.first_name="fname" and cl.last_name="lname")
+return Distinct cl.first_name, cl.last_name, p.nombre
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-------------------------------------------------------------------------------------------------
