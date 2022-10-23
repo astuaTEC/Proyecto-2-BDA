@@ -25,7 +25,7 @@ match (c: Cliente {id: "1"}) detach delete c
 ---------- ACTUALIZAR varias propiedades de un cliente----------
 
 match(c: Cliente {id: "21"})
-set c = {first_name: "Cristabellll", last_name: "Inventado"}
+set c += {first_name: "Cristabellll", last_name: "Inventado"}
 return c
 
 ****************************CATALOGO***************
@@ -53,9 +53,34 @@ match (p: Producto {id: "3"}) detach delete p
 ------------------ ACTUALIZAR un producto----------------
 
 TODO: hay que tener cuidado cuando se cambia de marca
+SOLUCION temporal: eliminar y voler a crear la relacion
 
-match(p: Producto {id: "21"})-[r: producidoPor]->(m: Marca)
+match(p: Producto {id: "24"})-[r: producidoPor]->(m: Marca)
 where p.marca = m.nombre
-return r
-set c = {first_name: "Cristabellll", last_name: "Inventado"}
-return c
+with p, r
+set p += {nombre: "Muffin - Mix - Creme Brule 15l", marca: "Demimbu", precio: "123" }
+delete r
+WITH p
+MATCH (p), (m1: Marca)
+WHERE p.marca = m1.nombre
+MERGE (p)-[r2: producidoPor]->(m1)
+
+********************* REGISTRO DE COMPRAS ***************************
+
+----------Cliente por su nombre----------------
+
+match(c: Cliente {first_name: "Ollie"}) return c
+
+---------- OBTENER todos los productos ------------
+
+match(p:Producto) return p
+
+----------------- COMPRAS ------------------------
+
+idCliente,idProducto,cantidad
+
+UN for y llamar a esta consulta:
+
+MATCH (c: Cliente), (p: Producto)
+WHERE c.id = "8" and p.id = "14"
+MERGE (c)-[r: Compra {cantidad: "654"}]->(p)

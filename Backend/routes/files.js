@@ -1,13 +1,13 @@
 /*
     Rutas para la carga de archivos
-    host + api/carga
+    host + api/files
 */
 
 const { Router } = require('express');
 
 const { check, body } = require('express-validator');
 
-const { chargeFiles } = require('../controllers/files');
+const { createNodesFromUrl } = require('../controllers/files');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -16,12 +16,12 @@ const router = Router();
 router.post(
     '/new', 
     [ //Middlewares
-        body().isArray(),
+        body().isArray().isLength(4),
         body('*.filename', 'El nombre del archivo es obligatorio').not().isEmpty(),
-        body('*.objectArray', 'El contenido del archivo es obligatorio').isArray().not().isEmpty(),
+        body('*.url', 'El url es obligatorio').not().isEmpty(),
         validarCampos
     ], 
-    chargeFiles
+    createNodesFromUrl
 );
 
 module.exports = router;
