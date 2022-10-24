@@ -7,7 +7,7 @@ const { Router } = require('express');
 
 const { check, body } = require('express-validator');
 
-const { createNodesFromUrl } = require('../controllers/files');
+const { createNodesFromUrl, countNodesInDB } = require('../controllers/files');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -23,5 +23,7 @@ router.post(
     ], 
     createNodesFromUrl
 );
+
+router.get('/status', countNodesInDB);
 
 module.exports = router;

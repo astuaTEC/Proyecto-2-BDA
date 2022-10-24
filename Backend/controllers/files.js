@@ -1,4 +1,4 @@
-const { Persona, session } = require("../database/connection");
+const session  = require("../database/connection");
 const { response } = require('express');
 
 const createNodesFromUrl = async(req, res = response) => {
@@ -94,6 +94,31 @@ const orderArray = (originalArray) => {
 
 }
 
+const countNodesInDB = async(req, res = response) => {
+
+    try {
+        var result = await session.run(
+            `match() return count(*) `
+        );
+
+        return res.status(200).json(
+            {
+                ok: true,
+                result: result.records[0]._fields[0].low
+            }
+        );
+        
+    } catch (error) {
+        res.status(400).json(
+            {
+                ok: false,
+                msg: error
+            }
+        )
+    }
+}
+
 module.exports = {
-    createNodesFromUrl
+    createNodesFromUrl,
+    countNodesInDB
 }

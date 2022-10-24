@@ -21,7 +21,8 @@ app.use( express.json() );
 
 // Rutas
 app.use('/api/files', require('./routes/files'));
-//app.use('/api/clubes', require('./routes/clubes'));
+app.use('/api/clients', require('./routes/clients'));
+app.use('/api/catalog', require('./routes/catalog'));
 
 //Escuchar peticiones
 app.listen(process.env.PORT, () => {
