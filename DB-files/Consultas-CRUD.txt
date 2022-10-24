@@ -2,9 +2,9 @@
 
 match() return count(*) 
 
-----------Cliente por su nombre----------------
+----------Cliente por su id----------------
 
-match(c: Cliente {first_name: "Ollie"}) return c
+match(c: Cliente {id: "03"}) return c
 
 Los clientes tienen id,first_name,last_name
 
@@ -40,7 +40,9 @@ match(p:Producto) return p
 
 --------- CREAR un producto y su relacion con la marca ---------------
 
-MERGE (p: Producto {id: "3", nombre: "Yoghurt Tubes", marca: "Skim", precio: "564"})
+MATCH(p1: Producto)
+WITH max(toInteger(p1.id)) as i
+CREATE (p: Producto {id: toString(i+1), nombre: "Yoghurt Tubes", marca: "Skim", precio: "564"})
 WITH p
 MATCH (p: Producto), (m: Marca)
 WHERE p.marca = m.nombre
@@ -64,6 +66,7 @@ WITH p
 MATCH (p), (m1: Marca)
 WHERE p.marca = m1.nombre
 MERGE (p)-[r2: producidoPor]->(m1)
+return p
 
 ********************* REGISTRO DE COMPRAS ***************************
 
