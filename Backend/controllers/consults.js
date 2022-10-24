@@ -168,7 +168,6 @@ const getTopClients = async(req, res = response) => {
 
 const getSearchClient = async(req, res = response) => {
     const user = req.body;
-    console.log(user)
 
     try {
 
@@ -208,7 +207,6 @@ const getSearchClient = async(req, res = response) => {
 
 const getCommonClient = async(req, res = response) => {
     const user = req.body;
-    console.log(user)
 
     try {
 
@@ -249,7 +247,6 @@ const getCommonClient = async(req, res = response) => {
 
 const getCommonProduct = async(req, res = response) => {
     const user = req.body;
-    console.log(user)
 
     try {
 
