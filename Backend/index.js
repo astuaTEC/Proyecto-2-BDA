@@ -23,7 +23,7 @@ app.use( express.json() );
 app.use('/api/files', require('./routes/files'));
 app.use('/api/clients', require('./routes/clients'));
 app.use('/api/catalog', require('./routes/catalog'));
-
+app.use('/api/consults', require('./routes/consults'));
 //Escuchar peticiones
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);
