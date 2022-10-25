@@ -37,11 +37,18 @@ export class ClientesComponent implements OnInit {
 
   constructor( private dialog: MatDialog) { }
 
+  // ngModel para el valor del search
+  searchTerm: string = "";
+
+  // Array que contiene todos los clientes
+  clientes: Cliente[] = [];
+
   // Mat Table settings
   displayedColumnClientes: string[] = ['ID','Nombre', 'Apellido', 'Editar', 'Eliminar'];
-  dataSourceClientes: Cliente[] = ELEMENT_DATA;
+  dataSourceClientes: Cliente[] = [];
 
   ngOnInit(): void {
+    this.fetchClientes();
   }
 
   // Abrir el Dialog de Agregar Cliente
@@ -81,6 +88,18 @@ export class ClientesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
+  }
+
+  // Fecth de todos los clientes
+  fetchClientes() {
+    this.clientes = ELEMENT_DATA;
+    this.dataSourceClientes = this.clientes;
+  }
+
+  // Permite filtrar los clientes por nombre
+  search(event: any): void {
+    let value = event.target.value;
+    this.dataSourceClientes = this.clientes.filter((target) => target.first_name.toLowerCase().includes(value) || target.last_name.toLowerCase().includes(value));
   }
 
 }

@@ -10,10 +10,7 @@ import { EliminarProductoComponent } from '../eliminar-producto/eliminar-product
 const ELEMENT_DATA: Producto[] = [
   {id: 0, nombre: 'Premium Weed', marca: 'Juanki Loko Inc', precio: 2000},
   {id: 1, nombre: 'Cerveza Imperial 1L', marca: 'Imperial', precio: 1750},
-  {id: 2, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800},
-
-
-
+  {id: 2, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800}
 ]
 
 @Component({
@@ -25,11 +22,18 @@ export class CatalogoComponent implements OnInit {
 
   constructor(private dialog: MatDialog) { }
 
+  // ngModel del valor de search
+  searchTerm: string = "";
+
+  // Arreglo de todos los productos
+  productos: Producto[] = [];
+
   // Mat Table settings
   displayedColumnProductos: string[] = ['ID','Nombre', 'Marca', 'Precio', 'Editar', 'Eliminar'];
-  dataSourceProductos: Producto[] = ELEMENT_DATA;
+  dataSourceProductos: Producto[] = [];
 
   ngOnInit(): void {
+    this.fetchProductos();
   }
 
   // Abrir el Dialog de Agregar Producto
@@ -68,6 +72,18 @@ export class CatalogoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
+  }
+
+  // Fecth de todos los clientes
+  fetchProductos() {
+    this.productos = ELEMENT_DATA;
+    this.dataSourceProductos = this.productos;
+  }
+
+  // Permite filtrar los clientes por nombre
+  search(event: any): void {
+    let value = event.target.value;
+    this.dataSourceProductos = this.productos.filter((target) => target.nombre.toLowerCase().includes(value) || target.marca.toLowerCase().includes(value));
   }
 
 }

@@ -1,0 +1,14 @@
+.section{
+    height: 40vh;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+}
+
+.header-row {
+    font-weight: bold;
+}

@@ -3,6 +3,10 @@
         <div class="col text-center">
             <h2>Catálogo de productos</h2>
         </div>
+        <div class="col form-group">
+            <input type="text" class="form-control" name="searchTerm" id="searchTerm"
+            [(ngModel)]="searchTerm" placeholder="Nombre" (input)="search($event)">
+        </div>
         <div class="col text-center">
             <button type="button" class="btn btn-success" (click)="openAgregarProducto()">Agregar Producto</button>
         </div>
