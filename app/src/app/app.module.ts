@@ -19,6 +19,7 @@ import { EditarProductoComponent } from './Componentes/editar-producto/editar-pr
 import { NotificacionesService } from './Servicios/notificaciones.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PeticionesService } from './Servicios/peticiones.service';
+import { CargarDatosComponent } from './Componentes/cargar-datos/cargar-datos.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PeticionesService } from './Servicios/peticiones.service';
     EditarClienteComponent,
     AgregarProductoComponent,
     EliminarProductoComponent,
-    EditarProductoComponent
+    EditarProductoComponent,
+    CargarDatosComponent
   ],
   imports: [
     BrowserModule,

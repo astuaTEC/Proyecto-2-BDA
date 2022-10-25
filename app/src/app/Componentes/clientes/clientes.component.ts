@@ -1,32 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Cliente } from 'src/app/Interfaces/cliente';
+import { NotificacionesService } from 'src/app/Servicios/notificaciones.service';
+import { PeticionesService } from 'src/app/Servicios/peticiones.service';
 import { AgregarClienteComponent } from '../agregar-cliente/agregar-cliente.component';
 import { EditarClienteComponent } from '../editar-cliente/editar-cliente.component';
 import { EliminarClienteComponent } from '../eliminar-cliente/eliminar-cliente.component';
-
-
-
-
-const ELEMENT_DATA: Cliente[] = [
-  {id: 0, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 1, first_name: 'Saymon', last_name: 'Astua'},
-  {id: 2, first_name: 'Julian', last_name: 'Camacho'},
-  {id: 3, first_name: 'Edgar', last_name: 'Solis'},
-  {id: 4, first_name: 'Kevin', last_name: 'Viquez'},
-  {id: 5, first_name: 'Esteban', last_name: 'Alvarado'},
-  {id: 6, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 7, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 8, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 9, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 10, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 11, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 12, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 13, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 14, first_name: 'Kevin', last_name: 'Acevedo'},
-
-
-];
 
 @Component({
   selector: 'app-clientes',
@@ -35,7 +14,8 @@ const ELEMENT_DATA: Cliente[] = [
 })
 export class ClientesComponent implements OnInit {
 
-  constructor( private dialog: MatDialog) { }
+  constructor( private dialog: MatDialog, private peticiones: PeticionesService,
+    private notificaciones: NotificacionesService) { }
 
   // ngModel para el valor del search
   searchTerm: string = "";
@@ -48,7 +28,7 @@ export class ClientesComponent implements OnInit {
   dataSourceClientes: Cliente[] = [];
 
   ngOnInit(): void {
-    this.fetchClientes();
+    this.fetchTodosClientes();
   }
 
   // Abrir el Dialog de Agregar Cliente
@@ -58,9 +38,9 @@ export class ClientesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      //let nombreCliente = result[0];
-      //let apellidoCliente = result[1];
-      console.log(result);
+      let nombreCliente = result[0];
+      let apellidoCliente = result[1];
+      this.crearCliente(nombreCliente, apellidoCliente);
     });
   }
 
@@ -72,9 +52,9 @@ export class ClientesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      //let nuevoNombreCliente = result[0];
-      //let nuevoApellidoCliente = result[1];
-      console.log(result);
+      let nuevoNombreCliente = result[0];
+      let nuevoApellidoCliente = result[1];
+      this.actualizarCliente(id, nuevoNombreCliente, nuevoApellidoCliente);
     });
   }
 
@@ -86,14 +66,10 @@ export class ClientesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
-  }
+      if(!result) return;
 
-  // Fecth de todos los clientes
-  fetchClientes() {
-    this.clientes = ELEMENT_DATA;
-    this.dataSourceClientes = this.clientes;
+      this.eliminarCliente(id);
+    });
   }
 
   // Permite filtrar los clientes por nombre
@@ -102,4 +78,74 @@ export class ClientesComponent implements OnInit {
     this.dataSourceClientes = this.clientes.filter((target) => target.first_name.toLowerCase().includes(value) || target.last_name.toLowerCase().includes(value));
   }
 
+  // Obtener la lista de todos los clientes
+  async fetchTodosClientes(){
+    const response: any = await this.peticiones.getTodosClientes();
+
+    this.clientes = [];
+
+    for(var cliente of response['result']){
+      this.clientes.push({
+        first_name: cliente['first_name'],
+        last_name: cliente['last_name'],
+        id: cliente['id']
+      })
+    }
+    this.dataSourceClientes = this.clientes;
+  }
+
+  // Crear un nuevo cliente
+  async crearCliente(first_name: string, last_name: string){
+    const response: any = await this.peticiones.NewCliente(first_name, last_name);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosClientes();
+      this.notificaciones.showNotification(
+        'Se ha creado un nuevo cliente', 3);
+  }
+
+
+  // Actualizar un cliente existente
+  async actualizarCliente(id: number, first_name: string, last_name: string){
+    const response: any = await this.peticiones.updateCliente(id, first_name, last_name);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosClientes();
+      this.notificaciones.showNotification(
+        'Se ha actualizado el cliente', 3);
+  }
+
+  // Eliminar un cliente por ID
+  async eliminarCliente(id:number){
+    const response: any = await this.peticiones.deleteClienteByID(id);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosClientes();
+      this.notificaciones.showNotification(
+        'Se ha eliminado un cliente', 3);
+  }
 }

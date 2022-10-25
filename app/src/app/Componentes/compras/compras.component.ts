@@ -45,6 +45,9 @@ export class ComprasComponent implements OnInit {
 
   constructor() { }
 
+  // Cliente seleccionado para la compra de los productos
+  idClienteSeleccionado: number = -1;
+
   // ngModel para el valor del search de clientes
   searchTermCliente: string = "";
 
@@ -69,6 +72,7 @@ export class ComprasComponent implements OnInit {
   ngOnInit(): void {
     this.fetchClientes();
     this.fetchProductos();
+    this.idClienteSeleccionado = -1;
   }
 
 
@@ -96,5 +100,63 @@ export class ComprasComponent implements OnInit {
     let value = event.target.value;
     this.dataSourceProductos = this.productos.filter((target) => target.nombre.toLowerCase().includes(value) || target.marca.toLowerCase().includes(value));
   }
+
+  // Seleccionar un cliente para asociar los productos
+  seleccionarCliente(id: number){
+    this.idClienteSeleccionado = id;
+  }
+
+  // Incrementar la cantidad de un producto
+  incrementarCantidadProducto(id: number){
+    this.productos.forEach(function (producto){
+      if (producto.id == id){
+        producto.cantidad++;
+      }
+    });
+  }
+
+  // Decrementar la cantidad de un producto
+  decrementarCantidadProducto(id: number){
+    this.productos.forEach(function (producto){
+      if (producto.id == id && producto.cantidad > 0){
+        producto.cantidad--;
+      }
+    });
+  }
+
+  // Registrar la compra de productos para un cliente selecionado
+  registrarCompra(){
+    // Primero verificar que se haya seleccionado un cliente de la lista
+    if (this.idClienteSeleccionado == -1){
+      return;
+    }
+    // Segundo, verificar que se haya comprado al menos un producto
+    var compradoFlag: boolean = false;
+    this.productos.forEach(function (producto){
+      if (!compradoFlag && producto.cantidad > 0){
+        compradoFlag = true;
+      }
+    });
+    if (!compradoFlag){
+      return;
+    }
+    let compras_array: any = [];
+    let idCliente = this.idClienteSeleccionado;
+    this.productos.forEach(function (producto){
+      if (producto.cantidad > 0){
+        compras_array.push(
+          {
+            "idCliente": idCliente,
+            "idProducto": producto.id,
+            "cantidad": producto.cantidad
+          }
+        )
+      }
+    });
+
+    console.log(compras_array);
+    
+  }
+
 
 }

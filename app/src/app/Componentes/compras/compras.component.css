@@ -1,5 +1,5 @@
 .section{
-    height: 40vh;
+    height: 50vh;
     margin-top: 15px;
     margin-bottom: 15px;
     overflow-y: scroll;
@@ -11,4 +11,8 @@ table {
 
 .header-row {
     font-weight: bold;
+}
+
+button{
+    margin-top: 20px;
 }

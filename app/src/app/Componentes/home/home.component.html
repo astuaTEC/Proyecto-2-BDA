@@ -3,30 +3,40 @@
     <p>
         <mat-toolbar class="toolbar" color="primary">
             <button mat-icon-button class="example-icon">
-                <mat-icon>home</mat-icon>
+                <mat-icon>assessment</mat-icon>
             </button>
             <span class="title-toolbar">Recomender</span>
 
             <span class="user-title-toolbar"></span>
-            <button type="button" class="btn btn-warning">cargar archivos</button>
+            <button type="button" class="btn btn-warning" (click)="openCargarDatos()">
+                cargar archivos
+            </button>
 
             <span class="user-title-toolbar"></span>
-            <button type="button" class="btn btn-warning" (click)="openClientes()">
+            <button type="button" class="btn btn-warning" (click)="openClientes()" [disabled]="!status">
                 clientes
             </button>
 
             <span class="user-title-toolbar"></span>
-            <button type="button" class="btn btn-warning" (click)="openCatalogo()">
+            <button type="button" class="btn btn-warning" (click)="openCatalogo()" [disabled]="!status">
                 catálogo
             </button>
 
             <span class="user-title-toolbar"></span>
-            <button type="button" class="btn btn-warning" (click)="openCompras()">
+            <button type="button" class="btn btn-warning" (click)="openCompras()" [disabled]="!status">
                 compras
             </button>
 
         </mat-toolbar>
     </p>
+</div>
+
+<div class="container" *ngIf="!status">
+    <div class="row align-items-center justify-content-center">
+        <div class="col text-center">
+            <h1>No se han cargado los datos</h1>
+        </div>
+    </div>
 </div>
 
 <router-outlet></router-outlet>

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, lastValueFrom, throwError } from 'rxjs';
+import { Archivo } from '../Interfaces/archivo';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,23 @@ export class PeticionesService {
 
   // API route
   private api_url: string = 'http://localhost:4000/api/';
+
+
+  // CONSULTAS DE ARCHIVOS
+  // GET cantidad total de nodos en la base de datos
+  async getCantidadNodos(){
+    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'files/status'));
+  }
+
+
+  // Cargar los archivos a la base de datos
+  async CargarArchivos(filesArray: Archivo []){
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'clients/new',
+     filesArray))
+     .catch((e) => {
+      return e['error'];
+  });
+}
 
   // CONSULTAS DE MANTENIMIENTO DE CLIENTES
   // GET Todos los clientes
@@ -34,7 +52,10 @@ export class PeticionesService {
 
   // DELETE Cliente por ID
   async deleteClienteByID(ID: number){
-    return await lastValueFrom(this.http.delete<any[]>(this.api_url + 'clients/delete/' + ID));
+    return await lastValueFrom(this.http.delete<any[]>(this.api_url + 'clients/delete/' + ID))
+    .catch((e) => {
+      return e['error'];
+  });
   }
 
 
@@ -75,7 +96,10 @@ export class PeticionesService {
 
   // DELETE Producto por ID
   async deleteProductoByID(ID: number){
-    return await lastValueFrom(this.http.delete<any[]>(this.api_url + 'catalog/delete/' + ID));
+    return await lastValueFrom(this.http.delete<any[]>(this.api_url + 'catalog/delete/' + ID))
+    .catch((e) => {
+      return e['error'];
+  });
   }
 
   // POST nuevo producto

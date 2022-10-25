@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Producto } from 'src/app/Interfaces/producto';
+import { NotificacionesService } from 'src/app/Servicios/notificaciones.service';
+import { PeticionesService } from 'src/app/Servicios/peticiones.service';
 import { AgregarProductoComponent } from '../agregar-producto/agregar-producto.component';
 import { EditarProductoComponent } from '../editar-producto/editar-producto.component';
 import { EliminarProductoComponent } from '../eliminar-producto/eliminar-producto.component';
-
-
-
-const ELEMENT_DATA: Producto[] = [
-  {id: 0, nombre: 'Premium Weed', marca: 'Juanki Loko Inc', precio: 2000},
-  {id: 1, nombre: 'Cerveza Imperial 1L', marca: 'Imperial', precio: 1750},
-  {id: 2, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800}
-]
 
 @Component({
   selector: 'app-catalogo',
@@ -20,7 +14,8 @@ const ELEMENT_DATA: Producto[] = [
 })
 export class CatalogoComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private peticiones: PeticionesService,
+    private notificaciones: NotificacionesService) { }
 
   // ngModel del valor de search
   searchTerm: string = "";
@@ -33,7 +28,7 @@ export class CatalogoComponent implements OnInit {
   dataSourceProductos: Producto[] = [];
 
   ngOnInit(): void {
-    this.fetchProductos();
+    this.fetchTodosProductos();
   }
 
   // Abrir el Dialog de Agregar Producto
@@ -43,9 +38,11 @@ export class CatalogoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      //let nombreCliente = result[0];
-      //let apellidoCliente = result[1];
-      console.log(result);
+      let nombre = result[0];
+      let marca = result[1];
+      let precio = result[2];
+      this.crearProducto(nombre, marca, precio);
+      
     });
   }
 
@@ -57,9 +54,10 @@ export class CatalogoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      //let nuevoNombreCliente = result[0];
-      //let nuevoApellidoCliente = result[1];
-      console.log(result);
+      let nuevoNombre = result[0];
+      let nuevaMarca = result[1];
+      let nuevoPrecio = result[2];
+      this.actualizarProducto(id, nuevoNombre, nuevaMarca, nuevoPrecio)
     });
   }
   // Abrir el Dialog de Eliminar Producto
@@ -70,20 +68,88 @@ export class CatalogoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
-  }
+      if (!result) return;
 
-  // Fecth de todos los clientes
-  fetchProductos() {
-    this.productos = ELEMENT_DATA;
-    this.dataSourceProductos = this.productos;
+      this.eliminarProducto(id);
+    });
   }
 
   // Permite filtrar los clientes por nombre
   search(event: any): void {
     let value = event.target.value;
     this.dataSourceProductos = this.productos.filter((target) => target.nombre.toLowerCase().includes(value) || target.marca.toLowerCase().includes(value));
+  }
+
+  // Obtener la lista de todos los productos
+  async fetchTodosProductos(){
+    const response: any = await this.peticiones.getTodosProductos();
+
+    this.productos = [];
+
+    for(var producto of response['result']){
+      this.productos.push({
+        nombre: producto['nombre'],
+        marca: producto['marca'],
+        id: producto['id'],
+        precio: producto['precio']
+      })
+    }
+    this.dataSourceProductos = this.productos;
+  }
+
+  // Crear un nuevo producto
+  async crearProducto(nombre: string, marca: string, precio: number){
+    const response: any = await this.peticiones.NewProducto(nombre, marca, precio);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosProductos();
+      this.notificaciones.showNotification(
+        'Se ha creado un nuevo producto', 3);
+  }
+
+
+  // Actualizar un producto existente
+  async actualizarProducto(id: number, nombre: string, marca: string, precio: number){
+    const response: any = await this.peticiones.updateProducto(id, nombre, marca, precio);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosProductos();
+      this.notificaciones.showNotification(
+        'Se ha actualizado el producto', 3);
+  }
+
+  // Eliminar un producto por ID
+  async eliminarProducto(id:number){
+    const response: any = await this.peticiones.deleteProductoByID(id);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.fetchTodosProductos();
+      this.notificaciones.showNotification(
+        'Se ha eliminado un producto', 3);
   }
 
 }
