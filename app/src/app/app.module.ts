@@ -16,6 +16,9 @@ import { FormsModule } from '@angular/forms';
 import { AgregarProductoComponent } from './Componentes/agregar-producto/agregar-producto.component';
 import { EliminarProductoComponent } from './Componentes/eliminar-producto/eliminar-producto.component';
 import { EditarProductoComponent } from './Componentes/editar-producto/editar-producto.component';
+import { NotificacionesService } from './Servicios/notificaciones.service';
+import { HttpClientModule } from '@angular/common/http';
+import { PeticionesService } from './Servicios/peticiones.service';
 
 @NgModule({
   declarations: [
@@ -36,9 +39,10 @@ import { EditarProductoComponent } from './Componentes/editar-producto/editar-pr
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [NotificacionesService, PeticionesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
