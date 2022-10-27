@@ -8,7 +8,7 @@
             <span class="title-toolbar">Recomender</span>
 
             <span class="user-title-toolbar"></span>
-            <button type="button" class="btn btn-warning" (click)="openCargarDatos()">
+            <button type="button" class="btn btn-warning" (click)="openCargarDatos()" [disabled]="status">
                 cargar archivos
             </button>
 

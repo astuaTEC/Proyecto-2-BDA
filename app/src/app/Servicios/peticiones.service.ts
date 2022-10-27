@@ -25,7 +25,7 @@ export class PeticionesService {
 
   // Cargar los archivos a la base de datos
   async CargarArchivos(filesArray: Archivo []){
-    return await lastValueFrom(this.http.post<string>(this.api_url + 'clients/new',
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'files/new',
      filesArray))
      .catch((e) => {
       return e['error'];
@@ -130,6 +130,12 @@ export class PeticionesService {
       return e['error'];
   });
 }
+
+// CONSULTAS DE COMPRAS
+  // GET todas las marcas de productos
+  async getTodasMarcas(){
+    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'catalog/brands'));
+  }
 
   
 }

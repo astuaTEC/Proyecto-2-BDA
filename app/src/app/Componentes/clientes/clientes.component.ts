@@ -38,6 +38,8 @@ export class ClientesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+      
       let nombreCliente = result[0];
       let apellidoCliente = result[1];
       this.crearCliente(nombreCliente, apellidoCliente);
@@ -52,6 +54,7 @@ export class ClientesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
       let nuevoNombreCliente = result[0];
       let nuevoApellidoCliente = result[1];
       this.actualizarCliente(id, nuevoNombreCliente, nuevoApellidoCliente);

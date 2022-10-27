@@ -1,40 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from 'src/app/Interfaces/cliente';
 import { ProductoCompra } from 'src/app/Interfaces/producto-compra';
-
-
-const ELEMENT_DATA_CLIENTES: Cliente[] = [
-  {id: 0, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 1, first_name: 'Saymon', last_name: 'Astua'},
-  {id: 2, first_name: 'Julian', last_name: 'Camacho'},
-  {id: 3, first_name: 'Edgar', last_name: 'Solis'},
-  {id: 4, first_name: 'Kevin', last_name: 'Viquez'},
-  {id: 5, first_name: 'Esteban', last_name: 'Alvarado'},
-  {id: 6, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 7, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 8, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 9, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 10, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 11, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 12, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 13, first_name: 'Kevin', last_name: 'Acevedo'},
-  {id: 14, first_name: 'Kevin', last_name: 'Acevedo'},
-
-
-];
-
-
-const ELEMENT_DATA_PRODUCTOS: ProductoCompra[] = [
-  {id: 0, nombre: 'Premium Weed', marca: 'Juanki Loko Inc', precio: 2000, cantidad:0},
-  {id: 1, nombre: 'Cerveza Imperial 1L', marca: 'Imperial', precio: 1750, cantidad:0},
-  {id: 2, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800, cantidad:0},
-  {id: 3, nombre: 'Premium Weed', marca: 'Juanki Loko Inc', precio: 2000, cantidad:0},
-  {id: 4, nombre: 'Cerveza Imperial 1L', marca: 'Imperial', precio: 1750, cantidad:0},
-  {id: 5, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800, cantidad:0},
-  {id: 6, nombre: 'Premium Weed', marca: 'Juanki Loko Inc', precio: 2000, cantidad:0},
-  {id: 7, nombre: 'Cerveza Imperial 1L', marca: 'Imperial', precio: 1750, cantidad:0},
-  {id: 8, nombre: 'Cerveza babaria 320 mL', marca: 'Babaria', precio: 800, cantidad:0}
-]
+import { PeticionesService } from 'src/app/Servicios/peticiones.service';
 
 @Component({
   selector: 'app-compras',
@@ -43,7 +10,7 @@ const ELEMENT_DATA_PRODUCTOS: ProductoCompra[] = [
 })
 export class ComprasComponent implements OnInit {
 
-  constructor() { }
+  constructor(private peticiones: PeticionesService) { }
 
   // Cliente seleccionado para la compra de los productos
   idClienteSeleccionado: number = -1;
@@ -70,15 +37,24 @@ export class ComprasComponent implements OnInit {
   dataSourceProductos: ProductoCompra[] = [];
 
   ngOnInit(): void {
-    this.fetchClientes();
-    this.fetchProductos();
+    this.fetchTodosClientes();
+    this.fetchTodosProductos();
     this.idClienteSeleccionado = -1;
   }
 
+  // Obtener la lista de todos los clientes
+  async fetchTodosClientes(){
+    const response: any = await this.peticiones.getTodosClientes();
 
-  // Fecth de todos los clientes
-  fetchClientes() {
-    this.clientes = ELEMENT_DATA_CLIENTES;
+    this.clientes = [];
+
+    for(var cliente of response['result']){
+      this.clientes.push({
+        first_name: cliente['first_name'],
+        last_name: cliente['last_name'],
+        id: cliente['id']
+      })
+    }
     this.dataSourceClientes = this.clientes;
   }
 
@@ -89,9 +65,21 @@ export class ComprasComponent implements OnInit {
   }
 
 
-  // Fecth de todos los clientes
-  fetchProductos() {
-    this.productos = ELEMENT_DATA_PRODUCTOS;
+  // Obtener la lista de todos los productos
+  async fetchTodosProductos(){
+    const response: any = await this.peticiones.getTodosProductos();
+
+    this.productos = [];
+
+    for(var producto of response['result']){
+      this.productos.push({
+        nombre: producto['nombre'],
+        marca: producto['marca'],
+        id: producto['id'],
+        precio: producto['precio'],
+        cantidad: 0
+      })
+    }
     this.dataSourceProductos = this.productos;
   }
 

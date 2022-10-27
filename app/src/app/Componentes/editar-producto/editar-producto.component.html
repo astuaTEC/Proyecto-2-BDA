@@ -19,9 +19,14 @@
                         <div class="col">
                             <label>Marca</label>
                             <div class="form-group">
-                                <input type="string" class="form-control"
-                                required name="marca_producto" [(ngModel)]="nuevaMarca">
-                            </div>
+                                <select class="form-select" name="select" required [(ngModel)]="nuevaMarca">
+                                    <option *ngFor="let marca of marcas"
+                                    required
+                                    value="{{marca}}">
+                                        {{marca}}
+                                    </option>
+                                </select>
+                            </div>              
                         </div>
                     </div>
                     <!-- Precio Row -->

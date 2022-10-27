@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
           "filename": result[3][0],
           "url": result[3][1]
         });
-
+      console.log(datos);
       this.cargarDatos(datos);
       
     });

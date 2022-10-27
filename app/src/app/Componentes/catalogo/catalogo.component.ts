@@ -38,6 +38,7 @@ export class CatalogoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
       let nombre = result[0];
       let marca = result[1];
       let precio = result[2];
@@ -54,6 +55,7 @@ export class CatalogoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
       let nuevoNombre = result[0];
       let nuevaMarca = result[1];
       let nuevoPrecio = result[2];
