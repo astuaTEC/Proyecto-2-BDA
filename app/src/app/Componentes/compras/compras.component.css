@@ -1,5 +1,5 @@
 .section{
-    height: 50vh;
+    height: 40vh;
     margin-top: 15px;
     margin-bottom: 15px;
     overflow-y: scroll;
@@ -14,5 +14,5 @@ table {
 }
 
 button{
-    margin-top: 20px;
+    margin-top: 10px;
 }

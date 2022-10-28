@@ -91,7 +91,7 @@ export class PeticionesService {
 
   // GET Todos los productos
   async getTodosProductos(){
-    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'catalog/products'));
+    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'catalog/products'))
   }
 
   // DELETE Producto por ID
@@ -130,12 +130,19 @@ export class PeticionesService {
       return e['error'];
   });
 }
-
-// CONSULTAS DE COMPRAS
   // GET todas las marcas de productos
   async getTodasMarcas(){
     return await lastValueFrom(this.http.get<any[]>(this.api_url + 'catalog/brands'));
   }
 
+// CONSULTAS DE COMPRAS
+  // POST nuevo producto
+  async NewCompra(json_array: any[]){
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'catalog/compras/new',
+     json_array))
+     .catch((e) => {
+      return e['error'];
+  });
+}
   
 }

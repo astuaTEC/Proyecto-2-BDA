@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from 'src/app/Interfaces/cliente';
 import { ProductoCompra } from 'src/app/Interfaces/producto-compra';
+import { NotificacionesService } from 'src/app/Servicios/notificaciones.service';
 import { PeticionesService } from 'src/app/Servicios/peticiones.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { PeticionesService } from 'src/app/Servicios/peticiones.service';
 })
 export class ComprasComponent implements OnInit {
 
-  constructor(private peticiones: PeticionesService) { }
+  constructor(private peticiones: PeticionesService,
+    private notificaciones: NotificacionesService) { }
 
   // Cliente seleccionado para la compra de los productos
   idClienteSeleccionado: number = -1;
@@ -37,18 +39,15 @@ export class ComprasComponent implements OnInit {
   dataSourceProductos: ProductoCompra[] = [];
 
   ngOnInit(): void {
-    this.fetchTodosClientes();
-    this.fetchTodosProductos();
+    this.fetchClientesProductos();
     this.idClienteSeleccionado = -1;
   }
 
   // Obtener la lista de todos los clientes
-  async fetchTodosClientes(){
-    const response: any = await this.peticiones.getTodosClientes();
-
+  async fetchClientesProductos(){
+    const responseC: any = await this.peticiones.getTodosClientes();
     this.clientes = [];
-
-    for(var cliente of response['result']){
+    for(let cliente of responseC['result']){
       this.clientes.push({
         first_name: cliente['first_name'],
         last_name: cliente['last_name'],
@@ -56,22 +55,10 @@ export class ComprasComponent implements OnInit {
       })
     }
     this.dataSourceClientes = this.clientes;
-  }
 
-  // Permite filtrar los clientes por nombre
-  searchClientes(event: any): void {
-    let value = event.target.value;
-    this.dataSourceClientes = this.clientes.filter((target) => target.first_name.toLowerCase().includes(value) || target.last_name.toLowerCase().includes(value));
-  }
-
-
-  // Obtener la lista de todos los productos
-  async fetchTodosProductos(){
-    const response: any = await this.peticiones.getTodosProductos();
-
+    const responseP: any = await this.peticiones.getTodosProductos();
     this.productos = [];
-
-    for(var producto of response['result']){
+    for(let producto of responseP['result']){
       this.productos.push({
         nombre: producto['nombre'],
         marca: producto['marca'],
@@ -81,6 +68,12 @@ export class ComprasComponent implements OnInit {
       })
     }
     this.dataSourceProductos = this.productos;
+  }
+
+  // Permite filtrar los clientes por nombre
+  searchClientes(event: any): void {
+    let value = event.target.value;
+    this.dataSourceClientes = this.clientes.filter((target) => target.first_name.toLowerCase().includes(value) || target.last_name.toLowerCase().includes(value));
   }
 
   // Permite filtrar los clientes por nombre
@@ -112,6 +105,23 @@ export class ComprasComponent implements OnInit {
     });
   }
 
+  // Crear un nuevo cliente
+  async crearCompra(json_array: any[]){
+    const response: any = await this.peticiones.NewCompra(json_array);
+
+    let status = response['ok'];
+    let response_message = response['msg'];
+    
+    if(!status){
+      this.notificaciones.showNotification(
+        response_message, 3
+      );
+      return;
+      }
+      this.notificaciones.showNotification(
+        'Se ha registrado la compra', 3);
+  }
+
   // Registrar la compra de productos para un cliente selecionado
   registrarCompra(){
     // Primero verificar que se haya seleccionado un cliente de la lista
@@ -119,7 +129,7 @@ export class ComprasComponent implements OnInit {
       return;
     }
     // Segundo, verificar que se haya comprado al menos un producto
-    var compradoFlag: boolean = false;
+    let compradoFlag: boolean = false;
     this.productos.forEach(function (producto){
       if (!compradoFlag && producto.cantidad > 0){
         compradoFlag = true;
@@ -128,8 +138,8 @@ export class ComprasComponent implements OnInit {
     if (!compradoFlag){
       return;
     }
-    let compras_array: any = [];
-    let idCliente = this.idClienteSeleccionado;
+    const compras_array: any = [];
+    const idCliente = this.idClienteSeleccionado;
     this.productos.forEach(function (producto){
       if (producto.cantidad > 0){
         compras_array.push(
@@ -142,8 +152,12 @@ export class ComprasComponent implements OnInit {
       }
     });
 
-    console.log(compras_array);
-    
+    this.crearCompra(compras_array);    
+  }
+
+  limpiar(){
+    this.idClienteSeleccionado = -1;
+    this.fetchClientesProductos();
   }
 
 

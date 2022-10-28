@@ -11,18 +11,18 @@ export class CargarDatosComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CargarDatosComponent>) { }
 
   // ngModels para los archivos que se deben cargar
-  nombre1: string = "";
+  nombre1: string = "Productos";
   link1: string = "";
 
-  nombre2: string = "";
+  nombre2: string = "Clientes";
   link2: string = "";
 
 
-  nombre3: string = "";
+  nombre3: string = "Marcas";
   link3: string = "";
 
 
-  nombre4: string = "";
+  nombre4: string = "Compras";
   link4: string = "";
 
 
