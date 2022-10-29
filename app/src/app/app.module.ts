@@ -20,6 +20,12 @@ import { NotificacionesService } from './Servicios/notificaciones.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PeticionesService } from './Servicios/peticiones.service';
 import { CargarDatosComponent } from './Componentes/cargar-datos/cargar-datos.component';
+import { TopProductosComponent } from './Componentes/top-productos/top-productos.component';
+import { TopMarcasComponent } from './Componentes/top-marcas/top-marcas.component';
+import { TopClientesComponent } from './Componentes/top-clientes/top-clientes.component';
+import { BusquedaClienteComponent } from './Componentes/busqueda-cliente/busqueda-cliente.component';
+import { ClienteProductoComunComponent } from './Componentes/cliente-producto-comun/cliente-producto-comun.component';
+import { ClienteCompraComunComponent } from './Componentes/cliente-compra-comun/cliente-compra-comun.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,13 @@ import { CargarDatosComponent } from './Componentes/cargar-datos/cargar-datos.co
     AgregarProductoComponent,
     EliminarProductoComponent,
     EditarProductoComponent,
-    CargarDatosComponent
+    CargarDatosComponent,
+    TopProductosComponent,
+    TopMarcasComponent,
+    TopClientesComponent,
+    BusquedaClienteComponent,
+    ClienteProductoComunComponent,
+    ClienteCompraComunComponent,
   ],
   imports: [
     BrowserModule,
