@@ -31,6 +31,10 @@ export class CatalogoComponent implements OnInit {
     this.fetchTodosProductos();
   }
 
+  ngAfterViewInit() {
+    this.fetchTodosProductos();
+  }
+
   // Abrir el Dialog de Agregar Producto
   openAgregarProducto(): void {
     const dialogRef = this.dialog.open(AgregarProductoComponent, {

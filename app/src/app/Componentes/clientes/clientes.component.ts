@@ -31,6 +31,11 @@ export class ClientesComponent implements OnInit {
     this.fetchTodosClientes();
   }
 
+  ngAfterViewInit() {
+    this.fetchTodosClientes();
+  }
+  
+
   // Abrir el Dialog de Agregar Cliente
   openAgregarCliente(): void {
     const dialogRef = this.dialog.open(AgregarClienteComponent, {

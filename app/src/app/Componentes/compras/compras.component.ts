@@ -43,6 +43,10 @@ export class ComprasComponent implements OnInit {
     this.idClienteSeleccionado = -1;
   }
 
+  ngAfterViewInit() {
+    this.fetchClientesProductos();
+  }
+
   // Obtener la lista de todos los clientes
   async fetchClientesProductos(){
     const responseC: any = await this.peticiones.getTodosClientes();
