@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
     this.status = false;
 
     let cantidadNodos: number = response['result'];
-    if (cantidadNodos < 10){
+    if (cantidadNodos == 0){
       return;
     }
 

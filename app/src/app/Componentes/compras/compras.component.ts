@@ -148,9 +148,9 @@ export class ComprasComponent implements OnInit {
       if (producto.cantidad > 0){
         compras_array.push(
           {
-            "idCliente": idCliente,
-            "idProducto": producto.id,
-            "cantidad": producto.cantidad
+            "idCliente": idCliente.toString(),
+            "idProducto": producto.id.toString(),
+            "cantidad": producto.cantidad.toString()
           }
         )
       }
