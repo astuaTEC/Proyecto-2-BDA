@@ -104,7 +104,7 @@ const countNodesInDB = async(req, res = response) => {
         return res.status(200).json(
             {
                 ok: true,
-                result: result.records[0]._fields[0].low
+                result: result.records[0]._fields[0]
             }
         );
         
