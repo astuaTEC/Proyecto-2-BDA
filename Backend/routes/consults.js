@@ -22,20 +22,20 @@ router.get('/top/brands', getTopBrands);
 
 router.get('/top/clients', getTopClients);
 
-router.get('/top/client/search',[ //Middlewares
+router.post('/top/client/search',[ //Middlewares
 check('first_name', 'El first_name es obligatorio').not().isEmpty(),
 check('last_name', 'El last_name es obligatorio').not().isEmpty(),
 validarCampos
 ], getSearchClient);
 
-router.get('/special/client',[ //Middlewares
+router.post('/special/client',[ //Middlewares
 check('first_name', 'El first_name es obligatorio').not().isEmpty(),
 check('last_name', 'El last_name es obligatorio').not().isEmpty(),
 check('product', 'El product es obligatorio').not().isEmpty(),
 validarCampos
 ], getCommonClient);
 
-router.get('/special/product',[ //Middlewares
+router.post('/special/product',[ //Middlewares
 check('first_name', 'El first_name es obligatorio').not().isEmpty(),
 check('last_name', 'El last_name es obligatorio').not().isEmpty(),
 validarCampos
