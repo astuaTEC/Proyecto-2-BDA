@@ -11,9 +11,11 @@ export class TopProductosComponent implements OnInit {
   constructor(private peticiones: PeticionesService) { }
 
   ngOnInit(): void {
+    this.getComprasTop5();
+    this.getComprasSeparadoTop5()
   }
 
-  displayedColumns: string[] = ['position', 'name', 'country', 'quantity']
+  displayedColumns: string[] = ['position', 'name', 'quantity_sold']
   top5compras: any[] =  []
   top5comprasseparado: any[] =  []
 

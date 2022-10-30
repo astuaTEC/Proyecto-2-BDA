@@ -2,3 +2,8 @@ table {
     width: 50%;
   }
   
+  .cantidad{
+    text-align: center;
+    justify-content:center;
+  }
+  

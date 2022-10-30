@@ -149,12 +149,12 @@ export class PeticionesService {
 
   // GET Top 5 marcas
   async getTop5Marcas() {
-    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'consults/top/brands'))
+    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'consults//top/brands'))
   }
 
   // GET Top 5 clientes
   async getTop5Clientes() {
-    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'consults/top/clients'))
+    return await lastValueFrom(this.http.get<any[]>(this.api_url + 'consults//top/clients'))
   }
 
   // GET Top 5 Compras
@@ -165,6 +165,46 @@ export class PeticionesService {
   // GET Top 5 Compras Separadas
   async getTop5ComprasSeparadas() {
     return await lastValueFrom(this.http.get<any[]>(this.api_url + 'consults/top/separate_purchases'))
+  }
+
+  // GET productos de la búsqueda de un cliente
+  async productosCliente(first_name: string, last_name: string) {
+    let json_body = {
+      "first_name": first_name,
+      "last_name" : last_name,
+    }
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'consults/top/client/search',
+      json_body))
+      .catch((e) => {
+        return e['error'];
+      });
+  }
+
+  // GET productos de la búsqueda de un cliente
+  async comprasEnComun(first_name: string, last_name: string) {
+    let json_body = {
+      "first_name": first_name,
+      "last_name" : last_name,
+    }
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'consults/special/product',
+      json_body))
+      .catch((e) => {
+        return e['error'];
+      });
+  }
+
+  // GET productos de la búsqueda de un cliente
+  async productosEnComun(first_name: string, last_name: string, product: string) {
+    let json_body = {
+      "first_name": first_name,
+      "last_name" : last_name,
+      "product": product
+    }
+    return await lastValueFrom(this.http.post<string>(this.api_url + 'consults/special/client',
+      json_body))
+      .catch((e) => {
+        return e['error'];
+      });
   }
 
 }

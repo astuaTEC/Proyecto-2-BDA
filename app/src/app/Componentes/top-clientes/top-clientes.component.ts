@@ -11,6 +11,7 @@ export class TopClientesComponent implements OnInit {
   constructor(private peticiones: PeticionesService) { }
 
   ngOnInit(): void {
+    this.getClientsTop5()
   }
 
   displayedColumns: string[] = ['position', 'name', 'total_sold']
@@ -20,7 +21,7 @@ export class TopClientesComponent implements OnInit {
     const response: any = await this.peticiones.getTop5Clientes();
 
     this.top5clientes = [];
-    var i = 1;
+    let i = 1;
     for(var marca of response['result']){
       var fullName = marca['first_name'] + " " + marca['last_name'] 
       this.top5clientes.push({
