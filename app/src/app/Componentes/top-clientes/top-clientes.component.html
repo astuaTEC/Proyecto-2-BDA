@@ -21,5 +21,8 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
+        <button mat-button color="primary" (click)="getClientsTop5()">Primary</button>
+
     </div>
 </div>
