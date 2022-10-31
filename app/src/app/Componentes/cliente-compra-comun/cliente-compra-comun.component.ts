@@ -24,6 +24,7 @@ export class ClienteCompraComunComponent implements OnInit {
   async fetchTodosClientes(){
     const response: any = await this.peticiones.getTodosClientes();
 
+    this.clients=[]
     for(var cliente of response['result']){
       this.clients.push({
         first_name: cliente['first_name'],

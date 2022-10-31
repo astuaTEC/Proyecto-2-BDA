@@ -1,6 +1,13 @@
 <div class="container">
     <div class="row align-items-center justify-content-center">
-      <h2>Búsqueda de un cliente</h2>
+      <div class="col-6">
+        <h2>Búsqueda de un cliente</h2>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-warning" style="float: right;" (click)="fetchTodosClientes()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
       <div class="col-6">
         <h4>Seleccione un cliente para consultar sus compras</h4>
         <mat-form-field appearance="fill">

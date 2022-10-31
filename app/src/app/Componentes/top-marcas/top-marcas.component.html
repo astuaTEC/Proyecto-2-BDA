@@ -1,7 +1,13 @@
 <div class="container">
     <div class="row align-items-center justify-content-center">
-      <h2>Top 5 marcas más vendidas</h2>
-
+      <div class="col-6">
+        <h2>Top 5 marcas más vendidas</h2>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-warning" style="float: right;" (click)="getMarcasTop5()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
         <table mat-table [dataSource]="top5marcas" class="mat-elevation-z8">
 
             <ng-container matColumnDef="position">

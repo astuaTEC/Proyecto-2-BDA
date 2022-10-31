@@ -18,7 +18,6 @@ export class BusquedaClienteComponent implements OnInit {
 
   selected = ''
   displayedColumns: string[] = ['position', 'name', 'quantity']
-  //clients: any[] =  [{id:0,first_name:"JOse", last_name:"Camacho"}, {id:1,first_name:"JOse1", last_name:"Camacho1"}, {id:2,first_name:"JOse2", last_name:"Camacho2"}]
   clients: any[] =  []
   productosCliente: any[] =  []
 
@@ -26,6 +25,8 @@ export class BusquedaClienteComponent implements OnInit {
   async fetchTodosClientes(){
     const response: any = await this.peticiones.getTodosClientes();
 
+    this.clients = []
+    
     for(var cliente of response['result']){
       this.clients.push({
         first_name: cliente['first_name'],

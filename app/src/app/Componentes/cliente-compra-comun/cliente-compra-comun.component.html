@@ -2,7 +2,7 @@
   <div class="row align-items-center justify-content-center">
     <h2>Clientes con compras en común</h2>
     <div class="col-6">
-      <h4>Seleccione un cliente para consultar otros clientes con compras en común</h4>
+      <h4>Seleccione un cliente para consultar otros clientes con al menos dos compras en común</h4>
       <mat-form-field appearance="fill">
         <mat-label>Clientes</mat-label>
         <mat-select (selectionChange)="this.obtenerProductos()" [(value)]="selected">
@@ -13,6 +13,9 @@
       </mat-form-field>
     </div>
     <div class="col-6">
+        <button class="btn btn-warning" style="float: right;" (click)="fetchTodosClientes()">
+          <mat-icon>refresh</mat-icon>
+        </button>
     </div>
   </div>
 

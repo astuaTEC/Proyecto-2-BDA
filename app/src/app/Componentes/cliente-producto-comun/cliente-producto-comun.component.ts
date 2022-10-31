@@ -26,6 +26,9 @@ export class ClienteProductoComunComponent implements OnInit {
   // Obtener la lista de todos los clientes
   async fetchTodosClientes(){
     const response: any = await this.peticiones.getTodosClientes();
+
+    this.clients = []
+
     for(var cliente of response['result']){
       this.clients.push({
         first_name: cliente['first_name'],
