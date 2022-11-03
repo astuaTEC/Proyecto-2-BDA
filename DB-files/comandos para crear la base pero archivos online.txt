@@ -1,0 +1,20 @@
+LOAD CSV WITH HEADERS FROM "https://gabustorage.blob.core.windows.net/base/Marcas.csv" AS line
+MERGE (n: Marca {id: line.id, nombre: line.nombre, pais: line.pais})
+
+
+
+LOAD CSV WITH HEADERS FROM "https://gabustorage.blob.core.windows.net/base/Productos.csv" AS line
+MERGE (p: Producto {id: line.id, nombre: line.nombre, marca: line.marca, precio: line.precio})
+WITH p
+MATCH (p: Producto), (m: Marca)
+WHERE p.marca = m.nombre
+MERGE (p)-[r: producidoPor]->(m)
+
+
+LOAD CSV WITH HEADERS FROM "https://gabustorage.blob.core.windows.net/base/Clientes.csv" AS line
+MERGE (n: Cliente {id: line.id, first_name: line.first_name, last_name: line.last_name})
+
+LOAD CSV WITH HEADERS FROM "https://gabustorage.blob.core.windows.net/base/Compras.csv" AS line
+MATCH (c: Cliente), (p: Producto)
+WHERE c.id = line.idCliente and p.id = line.idProducto
+MERGE (c)-[r: Compra {cantidad: line.cantidad}]->(p)

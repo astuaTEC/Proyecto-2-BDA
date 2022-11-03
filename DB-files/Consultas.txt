@@ -1,0 +1,67 @@
+--------------------------------------------------------------------------------------------------
+TOP 5 compras
+nombre del producto, cantidad total
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Funciona nombres sin importar marca
+////////se repite "Glass Clear 8 Oz" y "Table Cloth 54x72 White"/////////
+match(x:Producto)<-[r:Compra]-(c:Cliente)
+return x.nombre,SUM(toInteger(r.cantidad)) as cant_vendidos
+order by cant_vendidos desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Da cada producto por separado(importa la marca)
+match(x:Producto)<-[r:Compra]-(c:Cliente)
+with x,SUM(toInteger(r.cantidad)) as cant_vendidos
+return x.nombre,cant_vendidos
+order by cant_vendidos desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+TOP 5 Marcas 
+nombre marca, pais, cantidad total
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(p:Producto)-[r:producidoPor]->(m:Marca)
+match(p)<-[c:Compra]-(cl:Cliente)
+with m,SUM(toInteger(c.cantidad)) as cant_vendidos
+return m.nombre,m.pais, cant_vendidos
+order by cant_vendidos desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+TOP 5 Clientes que mas compran
+nombre(first_name, c.last_name), compras_total
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(x:Producto)<-[r:Compra]-(c:Cliente)
+with c,SUM(toInteger(r.cantidad)) as compras_total
+return c.first_name,c.last_name,compras_total
+order by compras_total desc
+limit 5
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+Busqueda cliente
+input -> fname,lname
+return ->nombre(producto), cantidad(producto)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(x:Producto)<-[r:Compra]-(c:Cliente{first_name:"fname",last_name:"lname"})
+return x.nombre,r.cantidad
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+Clientes en productos en comun
+input -> fname, lname, producto
+return fname,lname(de los otros clientes)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(c:Cliente{first_name:"fname",last_name:"lname"})-[r:Compra]->(p:Producto{nombre:"Bagel - Ched Chs Presliced"})<-[r2:Compra]-(cl:Cliente)
+return cl.first_name,cl. last_name
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------------------------
+Clientes en compras en comun(Russell,Ollie,Calvin, Jourdain, Abelard, Priscella)
+input -> fname, lname 
+return fname,lname(de los otros clientes)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+match(c:Cliente{first_name:"fname",last_name:"lname"})-[r:Compra]->(p:Producto),(p)<-[r2:Compra]-(cl:Cliente)
+with cl,c, count(DISTINCT r2) as rela
+where rela>=2
+match(c)-[:Compra]->(p:Producto)<-[:Compra]-(cl:Cliente)
+with p, cl
+where not (cl.first_name="fname" and cl.last_name="lname")
+return Distinct cl.first_name, cl.last_name, p.nombre
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-------------------------------------------------------------------------------------------------

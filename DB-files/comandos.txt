@@ -1,0 +1,45 @@
+LOAD CSV WITH HEADERS FROM "file:///Marcas.csv" AS line
+MERGE (n: Marca {id: line.id, nombre: line.nombre, pais: line.pais})
+
+LOAD CSV WITH HEADERS FROM "file:///Productos.csv" AS line
+MERGE (p: Producto {id: line.id, nombre: line.nombre, marca: line.marca, precio: line.precio})
+WITH p
+MATCH (p: Producto), (m: Marca)
+WHERE p.marca = m.nombre
+MERGE (p)-[r: producidoPor]->(m)
+
+LOAD CSV WITH HEADERS FROM "file:///Clientes.csv" AS line
+MERGE (n: Cliente {id: line.id, first_name: line.first_name, last_name: line.last_name})
+
+LOAD CSV WITH HEADERS FROM "file:///Compras.csv" AS line
+MATCH (c: Cliente), (p: Producto)
+WHERE c.id = line.idCliente and p.id = line.idProducto
+MERGE (c)-[r: Compra {cantidad: line.cantidad}]->(p)
+
+Cosas utiles:
+
+C:\Users\samas\.Neo4jDesktop\relate-data\dbmss\dbms-42bd9197-be86-4ca7-9f9f-34fcbc71d62d\import
+
+match (a) -[r] -> () delete a, r
+
+match (a) delete a
+
+*********************************************
+
+LOAD CSV WITH HEADERS FROM "https://res.cloudinary.com/dnxt7nqdg/raw/upload/v1666059360/BDA/Marcas_xkrrmp.csv" AS line
+MERGE (n: Marca {id: line.id, nombre: line.nombre, pais: line.pais})
+
+LOAD CSV WITH HEADERS FROM "https://res.cloudinary.com/dnxt7nqdg/raw/upload/v1666059360/BDA/Productos_nlw9ix.csv" AS line
+MERGE (p: Producto {id: line.id, nombre: line.nombre, marca: line.marca, precio: line.precio})
+WITH p
+MATCH (p: Producto), (m: Marca)
+WHERE p.marca = m.nombre
+MERGE (p)-[r: producidoPor]->(m)
+
+LOAD CSV WITH HEADERS FROM "https://res.cloudinary.com/dnxt7nqdg/raw/upload/v1666059360/BDA/Clientes_poip9n.csv" AS line
+MERGE (n: Cliente {id: line.id, first_name: line.first_name, last_name: line.last_name})
+
+LOAD CSV WITH HEADERS FROM "https://res.cloudinary.com/dnxt7nqdg/raw/upload/v1666059360/BDA/Compras_sigtaz.csv" AS line
+MATCH (c: Cliente), (p: Producto)
+WHERE c.id = line.idCliente and p.id = line.idProducto
+MERGE (c)-[r: Compra {cantidad: line.cantidad}]->(p)
