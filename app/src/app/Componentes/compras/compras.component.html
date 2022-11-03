@@ -1,0 +1,135 @@
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col form-group">
+            <input type="text" class="form-control" name="searchTermCliente" id="searchTermCliente"
+            [(ngModel)]="searchTermCliente" placeholder="Nombre" (input)="searchClientes($event)">
+        </div>
+
+        <div class="col form-group">
+            <input type="text" class="form-control" name="searchTermProducto" id="searchTermProducto"
+            [(ngModel)]="searchTermProductos" placeholder="Nombre" (input)="searchProductos($event)">
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col text-center">
+            <h2>Seleccionar cliente</h2>
+        </div>
+
+        <div class="col text-center">
+            <h2>Seleccionar productos</h2>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col section">
+            <table mat-table [dataSource]="dataSourceClientes" class="mat-elevation-z8">
+                <!-- ID Column -->
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Nombre Column -->
+                <ng-container matColumnDef="Nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+                </ng-container>
+
+                <!-- Apellido Column -->
+                <ng-container matColumnDef="Apellido">
+                    <th mat-header-cell *matHeaderCellDef> Apellido </th>
+                    <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+                </ng-container>
+
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Seleccionar">
+                    <th mat-header-cell *matHeaderCellDef> Seleccionar</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.id != idClienteSeleccionado">
+                            <button mat-icon-button class="favorite-icon search-icon" (click)="seleccionarCliente(element.id)">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="element.id == idClienteSeleccionado">
+                            <button mat-icon-button class="favorite-icon search-icon" (click)="seleccionarCliente(element.id)">
+                                <mat-icon>check_circle</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnClientes" class="header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnClientes;" class="content-row"></tr>
+              </table>
+        </div>
+        <div class="col section">
+            <table mat-table [dataSource]="dataSourceProductos" class="mat-elevation-z8">
+                <!-- ID Column -->
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Nombre Column -->
+                <ng-container matColumnDef="Nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Marca Column -->
+                <ng-container matColumnDef="Marca">
+                    <th mat-header-cell *matHeaderCellDef> Marca </th>
+                    <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
+                </ng-container>
+
+                <!-- Precio Column -->
+                <ng-container matColumnDef="Precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Cantidad">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad</th>
+                    <td mat-cell *matCellDef="let element">{{element.cantidad}}</td>
+                </ng-container>
+
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Add">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button class="favorite-icon search-icon" (click)="incrementarCantidadProducto(element.id)">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+                    </td>
+                </ng-container>
+            
+                <!-- Editar Column -->
+                <ng-container matColumnDef="Remove">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button class="favorite-icon search-icon" (click)="decrementarCantidadProducto(element.id)">
+                        <mat-icon>remove_circle</mat-icon>
+                    </button>
+                    </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumnProductos" class="header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnProductos;" class="content-row"></tr>
+              </table>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col form-group">
+            <button type="button" class="btn btn-success btn-lg" (click)="registrarCompra()">Registrar compra</button>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+        <div class="col form-group">
+            <button class="btn btn-warning" (click)="limpiar()">
+                <mat-icon>refresh</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+

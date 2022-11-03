@@ -1,0 +1,105 @@
+<h1 mat-dialog-title class="text-center">Cargar los datos</h1>
+<div mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <form #agregarProductoForm="ngForm" novalidate>
+                <div class="form-container">
+                    <!-- Nombre Row -->
+                    <div class="row file">
+                        <div class="col">
+                            <label>Nombre del archivo</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_1" [(ngModel)]="nombre1">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Link Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Link</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="link_1" [(ngModel)]="link1">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Nombre Row -->
+                    <div class="row  file">
+                        <div class="col">
+                            <label>Nombre del archivo</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_2" [(ngModel)]="nombre2">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Link Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Link</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="link_2" [(ngModel)]="link2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nombre Row -->
+                    <div class="row file">
+                        <div class="col">
+                            <label>Nombre del archivo</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_3" [(ngModel)]="nombre3">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Link Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Link</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="link_3" [(ngModel)]="link3">
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Nombre Row -->
+                    <div class="row file">
+                        <div class="col">
+                            <label>Nombre del archivo</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="nombre_4" [(ngModel)]="nombre4">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Link Row -->
+                    <div class="row">
+                        <div class="col">
+                            <label>Link</label>
+                            <div class="form-group">
+                                <input type="string" class="form-control"
+                                required name="link_4" [(ngModel)]="link4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div mat-dialog-actions>
+                    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+                    <button mat-button [disabled]="agregarProductoForm.form.invalid" [mat-dialog-close]="[[nombre1, link1], [nombre2, link2],
+                    [nombre3, link3], [nombre4, link4]]" cdkFocusInitial>Cargar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

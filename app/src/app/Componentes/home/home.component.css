@@ -1,0 +1,25 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+
+.title-toolbar{
+    font-size: 20px;
+    margin-left: 20px;;
+}
+
+.user-title-toolbar{
+    font-size: 20px;
+    margin-left: 100px;;
+}
+
+.toolbar input{
+    margin-left: 60px;
+    width: 20%;
+    text-align: center;
+}
+
+.toolbar mat-icon{
+    font-size: 25px;
+    margin-left: 10px;
+    margin-right: 50px;
+}

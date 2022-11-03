@@ -1,0 +1,24 @@
+table {
+    width: 80%;
+  }
+
+.section{
+    height: 40vh;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-y: scroll;
+}
+
+.header-row {
+    font-weight: bold;
+}
+
+button{
+    margin-top: 10px;
+}
+
+.cantidad{
+    text-align: center;
+    justify-content:center;
+  }
+  
